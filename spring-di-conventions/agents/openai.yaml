@@ -1,0 +1,4 @@
+﻿interface:
+  display_name: "Spring DI 규칙"
+  short_description: "@RequiredArgsConstructor 중심의 Spring 생성자 주입 규칙을 기본으로 적용합니다."
+  default_prompt: "$spring-di-conventions 를 사용해 Java 코드를 생성, 수정, 리뷰할 때 Spring DI 규칙을 한국어로 적용해줘."

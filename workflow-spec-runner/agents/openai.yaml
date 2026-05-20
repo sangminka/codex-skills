@@ -1,0 +1,7 @@
+interface:
+  display_name: "Workflow Spec Runner"
+  short_description: "Run saved QT-AI workflow specs"
+  default_prompt: "Use $workflow-spec-runner to run a saved QT-AI workflow spec."
+
+policy:
+  allow_implicit_invocation: true

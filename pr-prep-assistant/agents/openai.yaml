@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Prep Assistant"
+  short_description: "Prepare QT-AI pull requests safely"
+  default_prompt: "Use $pr-prep-assistant to prepare a PR title, body, and safety checklist for my current branch."

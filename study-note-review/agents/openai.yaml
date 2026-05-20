@@ -1,0 +1,7 @@
+interface:
+  display_name: "Study Note Review"
+  short_description: "Review notes, check overlap, and suggest documentation."
+  default_prompt: "Use $study-note-review to review my study notes, compare them with AI TOOL, check overlap first, and recommend whether nothing needs to be added, an existing page should be updated, or a new page should be created."
+
+policy:
+  allow_implicit_invocation: true

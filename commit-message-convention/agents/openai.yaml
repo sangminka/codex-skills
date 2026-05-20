@@ -1,0 +1,4 @@
+interface:
+  display_name: "Commit Message Convention"
+  short_description: "Generate Korean Conventional Commit messages"
+  default_prompt: "Use $commit-message-convention to write a commit message for my staged changes."

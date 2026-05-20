@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deep Interview"
+  short_description: "모호한 요구사항을 소크라테스식 질문으로 명확한 스펙으로 정리"
+  default_prompt: "소크라테스식 인터뷰를 통해 모호한 요구사항을 구조화된 명세로 정리해 주세요."

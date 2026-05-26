@@ -1,13 +1,13 @@
 ---
 name: workflow-spec-writer
-description: Use when the user asks to create a QT-AI 작업단위 명세서, 작업 전 workflow 문서, workflow 작성, 작업 계획서, or work unit specification. Interview the user in Korean, one question at a time, then save a Markdown workflow under doc/workspaces/DevC_강상민/workflows/.
+description: Use when the user asks to create a QT-AI 작업단위 명세서, 작업 전 workflow 문서, workflow 작성, 작업 계획서, implementation plan, or work unit specification before code changes.
 ---
 
 # Workflow Spec Writer
 
 ## Purpose
 
-Create a QT-AI work-unit workflow document before implementation. Default language is Korean.
+Create a QT-AI work-unit workflow document before implementation. Default language is Korean. The output uses the project's workflow format and includes enough implementation-planning detail for an agent or developer to execute safely.
 
 Use this skill for prompts such as:
 
@@ -22,11 +22,14 @@ Use this skill for prompts such as:
 - Interview Socratically: ask one focused question at a time, then choose the next question from the user's answer.
 - Offer concrete choices when that helps the user decide.
 - Do not write implementation code while interviewing for the workflow.
+- Use the QT-AI workflow document format as the saved artifact; do not save plans under `docs/superpowers/plans/` unless the user explicitly asks.
+- For implementation work, include concrete execution-planning detail: files to create/modify, test files, TDD order, acceptance criteria, validation commands, exclusions, and known follow-ups.
 - Before saving, inspect existing files in `doc/workspaces/DevC_강상민/workflows/` and follow the local Markdown style.
 - Save the final document as `doc/workspaces/DevC_강상민/workflows/YYYY-MM-DD_<ascii-task-slug>.md`.
 - Use the current local date for `YYYY-MM-DD`.
 - If the target directory does not exist, create it.
 - Ask for confirmation before saving when any major field is inferred rather than stated.
+- Before saving, scan for placeholders such as `TBD`, `TODO`, `나중에`, `적절히`, or vague steps like "테스트 추가" without saying which behavior and file will be tested.
 
 ## Interview Flow
 
@@ -54,7 +57,7 @@ Clarify:
 - feature or problem being solved
 - related F-ID or source document
 - branch name and PR target
-- files/modules expected to change
+- files/modules expected to change, split into create/modify/test when possible
 - explicit exclusions
 - success criteria
 
@@ -66,6 +69,7 @@ Clarify:
 - project guardrails that must be checked
 - owner-scope or cross-domain risks
 - manual verification needs
+- verification commands that should be run, and acceptable reasons if any command cannot run
 
 ### 4. Subagent Decision
 
@@ -75,6 +79,19 @@ Good splitting questions:
 
 - `테스트 보강과 구현을 분리해서 병렬로 진행해도 될까요, 아니면 한 에이전트가 순서대로 보는 게 안전할까요?`
 - `수정 대상 파일이 겹치나요, 아니면 backend/test/docs처럼 독립적으로 나눌 수 있나요?`
+
+## Hybrid Planning Quality Rules
+
+For implementation workflows, combine QT-AI's workflow style with execution-plan rigor:
+
+- Add a `## 파일 구조와 책임` section before `## 구현 순서` when the work changes code.
+- List exact paths, using `Create`, `Modify`, and `Test` labels where useful.
+- Make each implementation step small enough to verify independently.
+- Prefer test-first order: failing controller/service test, minimal implementation, then focused verification.
+- Do not include long production-code blocks unless the user asks; include concrete method names, DTO names, request fields, status codes, and test expectations instead.
+- Keep exclusions explicit so the workflow does not grow into adjacent work.
+- Include project guardrails: domain boundary imports, no user AI generation path, no prompt/provider raw response/secret storage, and Korean-first docs/reporting when relevant.
+- If a requirement depends on unresolved policy, mark it as a decision point and keep it out of the implementation scope.
 
 ## Workflow Document Format
 
@@ -104,6 +121,14 @@ Follow the style of existing `Workflow — YYYY-MM-DD task-name` files. The docu
 ## 제외 범위
 
 - ...
+
+## 파일 구조와 책임
+
+| 구분 | 경로 | 책임 |
+| --- | --- | --- |
+| Create | `<path>` | ... |
+| Modify | `<path>` | ... |
+| Test | `<path>` | ... |
 
 ## 구현 순서
 
@@ -229,7 +254,9 @@ Before saving:
 1. Read existing workflow examples from `doc/workspaces/DevC_강상민/workflows/`.
 2. Check that the target filename is unique.
 3. Check that all required sections are present.
-4. Check that `## Subagent Decision` includes the required decision details.
+4. For implementation work, check that `## 파일 구조와 책임`, `## 테스트 보강 목록`, `## 수용 기준`, and `## 검증 계획` are specific enough to execute.
+5. Check that `## Subagent Decision` includes the required decision details.
+6. Scan for placeholders and vague implementation steps; replace them before saving.
 
 After saving, tell the user:
 

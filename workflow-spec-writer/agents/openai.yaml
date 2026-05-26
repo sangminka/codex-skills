@@ -1,4 +1,4 @@
 interface:
   display_name: "Workflow Spec Writer"
-  short_description: "Interview and save QT-AI 작업단위 명세서"
-  default_prompt: "Use $workflow-spec-writer to interview me and create a QT-AI 작업단위 명세서."
+  short_description: "Create QT-AI workflow plans with execution detail"
+  default_prompt: "Use $workflow-spec-writer to interview me and create a QT-AI 작업단위 workflow with implementation planning detail."
